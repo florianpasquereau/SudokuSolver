@@ -7,8 +7,8 @@ Details
 -----------------
 This code go to pickup one grid into the website  [https://sudoku9x9.com](https://sudoku9x9.com).
 Solve the grid with the [Backtracking](https://en.wikipedia.org/wiki/Backtracking) algorithm and fill the answer into the page.<br/>
-To scrap and fill the grid I use [Selenium](https://www.selenium.dev/documentation/en/) with the [Chrome driver](https://chromedriver.chromium.org/downloads) of my current Chrome release. 
-To run the java virtual machine memory is set to 2GO. withe the argument : `-Xmx2048m`
+To scrap and fill the grid I use [Selenium](https://www.selenium.dev/documentation/en/) with the [Firefox Driver](https://github.com/mozilla/geckodriver/releases). 
+To run this code correctly, the java virtual must have the argument : `-Xmx2048m`.
 
 Release notes
 -----------------
