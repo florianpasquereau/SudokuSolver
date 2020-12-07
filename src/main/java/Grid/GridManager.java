@@ -10,13 +10,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.time.Duration;
+import java.util.ResourceBundle;
 
 public class GridManager extends GridActions {
     private final WebDriver driver;
 
     public GridManager() {
         this.driver = new FirefoxDriver();
-        driver.get("https://sudoku9x9.com/?level=2");
+        ResourceBundle bundle = ResourceBundle.getBundle("GridManager");
+        driver.get(bundle.getString("grid_source_url"));
     }
 
     public Grid scrapGrid() throws Exception {
