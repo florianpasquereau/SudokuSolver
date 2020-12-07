@@ -1,7 +1,9 @@
 package Grid;
 
+import Grid.Cell.Cell;
 import Grid.Cell.CellEmpty;
 import Grid.Cell.InterfaceCell;
+import Grid.Cell.InterfaceCell.CellValue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.time.Duration;
 
-public class GridManager {
+public class GridManager extends GridActions {
     private final WebDriver driver;
 
     public GridManager() {
@@ -21,7 +23,7 @@ public class GridManager {
         Grid ret = new Grid();
         WebElement element;
         String value;
-        InterfaceCell.CellValue[] values = InterfaceCell.CellValue.values();
+        CellValue[] values = CellValue.values();
         int y;
         int x;
 
@@ -36,8 +38,9 @@ public class GridManager {
                 ret.addEmptyCell(y, x);
             }
         }
-        return ret;
+        return this.gridPurged(ret);
     }
+
     public void putGrid(final Grid grid, final Duration period, final int index) throws Exception {
         int y;
         int x;
@@ -66,6 +69,57 @@ public class GridManager {
         Thread.sleep(2000);
         this.driver.close();
     }
+
+    private Grid gridPurged(Grid grid) throws Exception {
+        int x;
+        InterfaceCell cell;
+        CellValue value;
+
+        for(int y = 0; y < Grid.HEIGHT; y++) {
+            for (x = 0; x < Grid.WIDTH; x++) {
+                if ((cell = grid.getCell(y, x)) instanceof Cell) {
+                    value = cell.getCellValue();
+                    this.gridPurgedLine(grid, value, y);
+                    this.gridPurgedColumn(grid, value, x);
+                    this.gridPurgedBlock(grid, value, y, x);
+                }
+            }
+        }
+        return grid;
+    }
+
+    private void gridPurgedColumn(Grid grid, final CellValue value, final int x) throws Exception {
+        for (int y = 0; y < Grid.HEIGHT; y++) {
+            this.gridPurgeCell(grid, value, y, x);
+        }
+    }
+
+    private void gridPurgedLine(Grid grid, final CellValue value, final int y) throws Exception {
+        for (int x = 0; x < Grid.HEIGHT; x++) {
+            this.gridPurgeCell(grid, value, y, x);
+        }
+    }
+
+    private void gridPurgedBlock(Grid grid, final CellValue value, final int y, final int x) throws Exception {
+        int yCheckEnd = y - y % 3 + 3;
+        int xCheckEnd = x - x % 3 + 3;
+        int xCheckBase = x - x % 3;
+        int xCurs;
+
+        for (int yCurs = y - y % 3; yCurs < yCheckEnd; yCurs++) {
+            for (xCurs = xCheckBase; xCurs < xCheckEnd; xCurs++) {
+                this.gridPurgeCell(grid, value, yCurs, xCurs);
+            }
+        }
+    }
+
+    private void gridPurgeCell(Grid grid, final CellValue value, final int y, final int x) throws Exception {
+        InterfaceCell cell = grid.getCell(y, x);
+        if (cell instanceof CellEmpty) {
+            ((CellEmpty)cell).removePossibility(value);
+        }
+    }
+
 
     private WebElement getElementById(String id) {
         return this.driver.findElement(By.id(id));
