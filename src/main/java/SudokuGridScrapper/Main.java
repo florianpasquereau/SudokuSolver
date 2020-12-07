@@ -16,7 +16,7 @@ public class Main {
         Duration period;
         Long average = 0L;
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             start = LocalDateTime.now();
             grid = gridSolver.solver(gridManager.scrapGrid());
             period = Duration.between(start, LocalDateTime.now());
