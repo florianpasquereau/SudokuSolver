@@ -38,8 +38,6 @@ public class CellEmpty extends Cell{
     public int isValueIncremental() {
         this.initKeys();
         return  (this.keys.size() <= this.indexPossibility + 1) ? 0 : 1;
-//        int index = this.cellValue.ordinal() + 1;
-//        return (index >= InterfaceCell.CELL_VALUE_SIZE) ? 0 : 1;
     }
 
     public void setAsEmpty() {

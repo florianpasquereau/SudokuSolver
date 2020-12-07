@@ -15,8 +15,9 @@ public class Main {
         LocalDateTime start;
         Duration period;
         Long average = 0L;
+        int numberLoop = 10;
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numberLoop; i++) {
             start = LocalDateTime.now();
             grid = gridSolver.solver(gridManager.scrapGrid());
             period = Duration.between(start, LocalDateTime.now());
@@ -25,6 +26,6 @@ public class Main {
             gridManager.refreshPage();
         }
         gridManager.close();
-        System.out.println("Average time : " + (average / 100) + "ms");
+        System.out.println("Average time : " + (average / numberLoop) + "ms");
     }
 }
