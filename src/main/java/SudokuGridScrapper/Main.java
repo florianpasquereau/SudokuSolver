@@ -32,7 +32,7 @@ public class Main {
             gridManager.refreshPage();
         }
         gridManager.close();
-        System.out.println("Average time : " + (average / numberLoop) + "ms");
+        System.out.println("Average time : " + (Math.round((double)average / numberLoop * 100) / 100.0) + "ms");
     }
 
     public static void main(String[] argv) throws Exception {
